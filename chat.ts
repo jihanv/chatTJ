@@ -4,11 +4,12 @@ import { SupabaseVectorStore } from "@langchain/community/vectorstores/supabase"
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { ChatOpenAI } from "@langchain/openai";
 import { PromptTemplate } from "@langchain/core/prompts";
+import { StringOutputParser } from "@langchain/core/output_parsers";
 
-document.addEventListener("submit", (e: SubmitEvent) => {
-  e.preventDefault();
-  progressConversation();
-});
+// document.addEventListener("submit", (e: SubmitEvent) => {
+//   e.preventDefault();
+//   progressConversation();
+// });
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
@@ -42,17 +43,21 @@ const standaloneQuestionPrompt = PromptTemplate.fromTemplate(
   standaloneQuestionTemplate,
 );
 
-const standaloneQuestionChain = standaloneQuestionPrompt.pipe(llm);
+const standaloneQuestionChain = standaloneQuestionPrompt
+  .pipe(llm)
+  .pipe(new StringOutputParser())
+  .pipe(retriever);
 
-const response = await standaloneQuestionChain.invoke({
-  question:
-    "What are the technical requirements for running Scrimba? I only have a very old laptop which is not that powerful.",
-});
+async function main() {
+  const response = await standaloneQuestionChain.invoke({
+    question:
+      "「Clause」という概念がよく分かりません。それは何ですか？「Sentence」とはどう違うのですか？",
+  });
 
-const response2 = await retriever.invoke("Will Scrimba work on an old laptop?");
+  console.log(response);
+}
 
-console.log(response);
-console.log(response2);
+main().catch(console.error);
 
 async function progressConversation(): Promise<void> {
   const userInput = document.getElementById("user-input");
@@ -64,14 +69,12 @@ async function progressConversation(): Promise<void> {
   const question: string = userInput.value;
   userInput.value = "";
 
-  // add human message
   const newHumanSpeechBubble: HTMLDivElement = document.createElement("div");
   newHumanSpeechBubble.classList.add("speech", "speech-human");
   chatbotConversation.appendChild(newHumanSpeechBubble);
   newHumanSpeechBubble.textContent = question;
   chatbotConversation.scrollTop = chatbotConversation.scrollHeight;
 
-  // add AI message
   const newAiSpeechBubble: HTMLDivElement = document.createElement("div");
   newAiSpeechBubble.classList.add("speech", "speech-ai");
   chatbotConversation.appendChild(newAiSpeechBubble);
