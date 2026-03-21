@@ -1,2 +1,0 @@
-pnpm tsx index.ts  
-pnpm tsx chat.ts  
