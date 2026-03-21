@@ -3,6 +3,7 @@ import { ChatOpenAI } from "@langchain/openai";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import { retriever } from "./lib/utils";
+import { DocumentInterface } from "@langchain/core/documents";
 // document.addEventListener("submit", (e: SubmitEvent) => {
 //   e.preventDefault();
 //   progressConversation();
@@ -20,10 +21,15 @@ const standaloneQuestionPrompt = PromptTemplate.fromTemplate(
   standaloneQuestionTemplate,
 );
 
+function combineDocuments(docs: DocumentInterface[]) {
+  return docs.map((doc) => doc.pageContent).join("\n\n");
+}
+
 const chain = standaloneQuestionPrompt
   .pipe(llm)
   .pipe(new StringOutputParser())
-  .pipe(retriever);
+  .pipe(retriever)
+  .pipe(combineDocuments);
 
 async function main() {
   const response = await chain.invoke({
