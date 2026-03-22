@@ -44,3 +44,5 @@ next-env.d.ts
 data/*
 index.ts
 notes.txt
+index.js
+index.html

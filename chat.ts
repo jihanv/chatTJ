@@ -8,10 +8,10 @@ import {
   RunnablePassthrough,
   RunnableSequence,
 } from "@langchain/core/runnables";
-// document.addEventListener("submit", (e: SubmitEvent) => {
-//   e.preventDefault();
-//   progressConversation();
-// });
+document.addEventListener("submit", (e: SubmitEvent) => {
+  e.preventDefault();
+  progressConversation();
+});
 
 const llm = new ChatOpenAI({
   model: "gpt-4.1",
@@ -69,16 +69,16 @@ const chain = RunnableSequence.from([
   finalAnswerChain,
 ]);
 
-async function main() {
-  const response = await chain.invoke({
-    question:
-      "「Clause」という概念がよく分かりません。それは何ですか？「Sentence」とはどう違うのですか？どちらも主語と動詞を含んでいるので、その違いが分かりません。「Sentence は complete thought を表す」と言われても、曖昧でよく分かりません。",
-  });
+// async function main() {
+//   const response = await chain.invoke({
+//     question:
+//       "「Clause」という概念がよく分かりません。それは何ですか？「Sentence」とはどう違うのですか？どちらも主語と動詞を含んでいるので、その違いが分かりません。「Sentence は complete thought を表す」と言われても、曖昧でよく分かりません。",
+//   });
 
-  console.log(response);
-}
+//   console.log(response);
+// }
 
-main().catch(console.error);
+// main().catch(console.error);
 
 async function progressConversation(): Promise<void> {
   const userInput = document.getElementById("user-input");
@@ -95,11 +95,14 @@ async function progressConversation(): Promise<void> {
   chatbotConversation.appendChild(newHumanSpeechBubble);
   newHumanSpeechBubble.textContent = question;
   chatbotConversation.scrollTop = chatbotConversation.scrollHeight;
+  const response = await chain.invoke({
+    question:
+      "「Clause」という概念がよく分かりません。それは何ですか？「Sentence」とはどう違うのですか？どちらも主語と動詞を含んでいるので、その違いが分かりません。「Sentence は complete thought を表す」と言われても、曖昧でよく分かりません。",
+  });
 
   const newAiSpeechBubble: HTMLDivElement = document.createElement("div");
   newAiSpeechBubble.classList.add("speech", "speech-ai");
   chatbotConversation.appendChild(newAiSpeechBubble);
-  const result: string = "";
-  newAiSpeechBubble.textContent = result;
+  newAiSpeechBubble.textContent = response;
   chatbotConversation.scrollTop = chatbotConversation.scrollHeight;
 }
