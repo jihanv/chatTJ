@@ -1,3 +1,14 @@
+type ChatFormState = {
+    message: string;
+    errors?: {
+        message?: string[];
+    };
+};
+
+const initialState: ChatFormState = {
+    message: "",
+};
+
 const messages = [
     { role: "user", text: "Do you cover AI in your courses?" },
     { role: "assistant", text: "Yes, we have an AI Engineering Path aimed at developers who want to learn about implementing AI solutions." }
@@ -24,21 +35,22 @@ export default function ChatInterface() {
                         </p>
                     ))}
                 </div>
-                <form className="h-14  focus-within:bg-white/3 flex justify-between items-center px-4 rounded-2xl transition-colors border border-white/10 focus-within:border-white/20" >
+                <form className="h-14 bg-white/3 focus-within:bg-white/5  flex gap-3 items-center px-4 rounded-2xl transition-colors border border-white/10 focus-within:border-white/20" >
                     <input
                         type="text"
+                        id="message"
                         name="message"
                         required
                         autoFocus
                         autoComplete="off"
                         defaultValue=""
                         placeholder="Ask a question..."
-                        className="min-w-0 flex-1 bg-transparent text-white placeholder:text-white/50 outline-none leading-6"
+                        className="min-w-0 text-sm flex-1 bg-transparent text-white placeholder:text-white/40 outline-none leading-6"
                     />
                     <button
                         type="submit"
                         aria-label="Send message"
-                        className="hover:bg-white/10 hover:text-white/90 cursor-pointer transition-colors flex h-8 w-8 focus-visible:bg-white/10 items-center justify-center rounded-full bg-white/5 text-sm text-white/70 focus-visible:ring-1  focus-visible:ring-white/20 focus-visible:text-white/90">
+                        className="hover:bg-white/10 hover:text-white/90 cursor-pointer transition-colors flex h-9 w-9 focus-visible:bg-white/10 items-center justify-center rounded-full bg-white/5 text-sm text-white/70 focus-visible:ring-1  focus-visible:ring-white/20 focus-visible:text-white/90 shrink-0">
                         ↑
                     </button>
                 </form >
