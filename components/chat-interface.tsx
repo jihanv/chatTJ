@@ -11,7 +11,7 @@ export default function ChatInterface() {
                 Knowledge Bank
             </p>
             <div className="mt-8 flex flex-col h-[80%] rounded-3xl border p-6 border-white/10">
-                <div className="flex flex-col justify-start flex-1 gap-4 overflow-y-scroll [scrollbar-color:#334155_#0f172a] [scrollbar-gutter:stable]  pr-5">
+                <div className="flex flex-col justify-start flex-1 gap-4 overflow-y-auto [scrollbar-color:#334155_#0f172a] [scrollbar-gutter:stable]  pr-5">
                     {messages.map((message, index) => (
                         <p
                             key={index}
@@ -24,15 +24,23 @@ export default function ChatInterface() {
                         </p>
                     ))}
                 </div>
-                <form className="h-14 flex justify-between items-center px-4 rounded-2xl border border-white/10" >
+                <form className="h-14  focus-within:bg-white/3 flex justify-between items-center px-4 rounded-2xl transition-colors border border-white/10 focus-within:border-white/20" >
                     <input
                         type="text"
+                        name="message"
+                        required
+                        autoFocus
+                        autoComplete="off"
+                        defaultValue=""
                         placeholder="Ask a question..."
-                        className="flex-1 bg-transparent text-white placeholder:text-white/50 outline-none"
+                        className="min-w-0 flex-1 bg-transparent text-white placeholder:text-white/50 outline-none leading-6"
                     />
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/5 text-sm text-white/70">
+                    <button
+                        type="submit"
+                        aria-label="Send message"
+                        className="hover:bg-white/10 hover:text-white/90 cursor-pointer transition-colors flex h-8 w-8 focus-visible:bg-white/10 items-center justify-center rounded-full bg-white/5 text-sm text-white/70 focus-visible:ring-1  focus-visible:ring-white/20 focus-visible:text-white/90">
                         ↑
-                    </div>
+                    </button>
                 </form >
             </div>
         </section>
