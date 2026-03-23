@@ -1,5 +1,10 @@
 "use server";
 
-export async function submitMessage(_formData: FormData) {
-  return null;
+import { ChatFormState } from "@/lib/types";
+
+export async function submitMessage(
+  prevState: ChatFormState,
+  _formData: FormData,
+): Promise<ChatFormState> {
+  return prevState;
 }

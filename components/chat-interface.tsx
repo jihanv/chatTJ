@@ -1,14 +1,3 @@
-type ChatFormState = {
-    message: string;
-    errors?: {
-        message?: string[];
-    };
-};
-
-const initialState: ChatFormState = {
-    message: "",
-};
-
 const messages = [
     { role: "user", text: "Do you cover AI in your courses?" },
     { role: "assistant", text: "Yes, we have an AI Engineering Path aimed at developers who want to learn about implementing AI solutions." }
