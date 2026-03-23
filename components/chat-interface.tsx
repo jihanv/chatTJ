@@ -24,7 +24,7 @@ export default function ChatInterface() {
                         </p>
                     ))}
                 </div>
-                <div className="h-14 flex justify-between items-center px-4 rounded-2xl border border-white/10" >
+                <form className="h-14 flex justify-between items-center px-4 rounded-2xl border border-white/10" >
                     <input
                         type="text"
                         placeholder="Ask a question..."
@@ -33,7 +33,7 @@ export default function ChatInterface() {
                     <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/5 text-sm text-white/70">
                         ↑
                     </div>
-                </div>
+                </form >
             </div>
         </section>
     );
