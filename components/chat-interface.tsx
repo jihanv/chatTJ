@@ -1,9 +1,18 @@
+"use client";
+
+import { useActionState } from "react";
+import { submitMessage } from "@/app/actions";
+import { initialState } from "@/lib/types";
+
 const messages = [
     { role: "user", text: "Do you cover AI in your courses?" },
     { role: "assistant", text: "Yes, we have an AI Engineering Path aimed at developers who want to learn about implementing AI solutions." }
 ]
 
 export default function ChatInterface() {
+
+    const [state, formAction] = useActionState(submitMessage, initialState);
+
     return (
         <section className="text-white h-[80%] p-8 w-3/4 lg:max-w-2xl rounded-4xl bg-slate-900">
             <h1 className="text-3xl font-semibold">ChatTJ</h1>
@@ -24,7 +33,7 @@ export default function ChatInterface() {
                         </p>
                     ))}
                 </div>
-                <form className="h-14 bg-white/3 focus-within:bg-white/5  flex gap-3 items-center px-4 rounded-2xl transition-colors border border-white/10 focus-within:border-white/20" >
+                <form action={formAction} className="h-14 bg-white/3 focus-within:bg-white/5  flex gap-3 items-center px-4 rounded-2xl transition-colors border border-white/10 focus-within:border-white/20" >
                     <input
                         type="text"
                         id="message"
