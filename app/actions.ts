@@ -4,7 +4,12 @@ import { ChatFormState } from "@/lib/types";
 
 export async function submitMessage(
   prevState: ChatFormState,
-  _formData: FormData,
+  formData: FormData,
 ): Promise<ChatFormState> {
-  return prevState;
+  const message = formData.get("message");
+
+  return {
+    ...prevState,
+    message: typeof message === "string" ? message : "",
+  };
 }
