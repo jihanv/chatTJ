@@ -1,10 +1,20 @@
+export type ChatMessage = {
+  role: "user" | "ChatTJ";
+  text: string;
+};
+
 export type ChatFormState = {
-  message: string;
+  messages: ChatMessage[];
   errors?: {
     message?: string[];
   };
 };
 
 export const initialState: ChatFormState = {
-  message: "",
+  messages: [
+    {
+      role: "ChatTJ",
+      text: "どんな御用でしょうか？ :)",
+    },
+  ],
 };
