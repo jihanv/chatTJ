@@ -1,18 +1,33 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useOptimistic } from "react";
 import { submitMessage } from "@/app/actions";
 import { initialState } from "@/lib/types";
 
-const messages = [
-    { role: "user", text: "Do you cover AI in your courses?" },
-    { role: "assistant", text: "Yes, we have an AI Engineering Path aimed at developers who want to learn about implementing AI solutions." }
-]
-
 export default function ChatInterface() {
 
-    const [state, formAction] = useActionState(submitMessage, initialState);
 
+    const [state, formAction] = useActionState(submitMessage, initialState);
+    const [optimisticMessages, addOptimisticMessage] = useOptimistic(
+        state.messages,
+        (currentMessages, newMessage: { role: "user" | "ChatTJ"; text: string }) => [
+            ...currentMessages,
+            newMessage,
+        ]
+    );
+    async function handleSubmit(formData: FormData) {
+        const rawMessage = formData.get("message");
+        const message = typeof rawMessage === "string" ? rawMessage : "";
+
+        if (!message.trim()) return;
+
+        addOptimisticMessage({
+            role: "user",
+            text: message,
+        });
+
+        await formAction(formData);
+    }
     return (
         <section className="text-white h-[80%] p-8 w-3/4 lg:max-w-2xl rounded-4xl bg-slate-900">
             <h1 className="text-3xl font-semibold">ChatTJ</h1>
@@ -21,7 +36,7 @@ export default function ChatInterface() {
             </p>
             <div className="mt-8 flex flex-col h-[80%] rounded-3xl border p-6 border-white/10">
                 <div className="flex flex-col justify-start flex-1 gap-4 overflow-y-auto [scrollbar-color:#334155_#0f172a] [scrollbar-gutter:stable]  pr-5">
-                    {messages.map((message, index) => (
+                    {optimisticMessages.map((message, index) => (
                         <p
                             key={index}
                             className={`inline-block w-fit rounded-2xl max-w-[80%] px-4 py-2 leading-6 ${message.role === "user"
@@ -33,7 +48,7 @@ export default function ChatInterface() {
                         </p>
                     ))}
                 </div>
-                <form action={formAction} className="h-14 bg-white/3 focus-within:bg-white/5  flex gap-3 items-center px-4 rounded-2xl transition-colors border border-white/10 focus-within:border-white/20" >
+                <form action={handleSubmit} className="h-14 bg-white/3 focus-within:bg-white/5  flex gap-3 items-center px-4 rounded-2xl transition-colors border border-white/10 focus-within:border-white/20" >
                     <input
                         type="text"
                         id="message"
