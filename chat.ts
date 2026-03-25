@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { ChatOpenAI } from "@langchain/openai";
+import { ChatDeepSeek } from "@langchain/deepseek";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import { retriever } from "./lib/utils";
@@ -8,13 +9,18 @@ import {
   RunnablePassthrough,
   RunnableSequence,
 } from "@langchain/core/runnables";
-document.addEventListener("submit", (e: SubmitEvent) => {
-  e.preventDefault();
-  progressConversation();
-});
+// document.addEventListener("submit", (e: SubmitEvent) => {
+//   e.preventDefault();
+//   progressConversation();
+// });
 
-const llm = new ChatOpenAI({
-  model: "gpt-4.1",
+// const llm = new ChatOpenAI({
+//   model: "gpt-4.1",
+//   temperature: 0,
+// });
+
+const llm = new ChatDeepSeek({
+  model: "deepseek-chat",
   temperature: 0,
 });
 
@@ -69,16 +75,16 @@ const chain = RunnableSequence.from([
   finalAnswerChain,
 ]);
 
-// async function main() {
-//   const response = await chain.invoke({
-//     question:
-//       "「Clause」という概念がよく分かりません。それは何ですか？「Sentence」とはどう違うのですか？どちらも主語と動詞を含んでいるので、その違いが分かりません。「Sentence は complete thought を表す」と言われても、曖昧でよく分かりません。",
-//   });
+async function main() {
+  const response = await chain.invoke({
+    question:
+      "「Clause」という概念がよく分かりません。それは何ですか？「Sentence」とはどう違うのですか？どちらも主語と動詞を含んでいるので、その違いが分かりません。「Sentence は complete thought を表す」と言われても、曖昧でよく分かりません。",
+  });
 
-//   console.log(response);
-// }
+  console.log(response);
+}
 
-// main().catch(console.error);
+main().catch(console.error);
 
 async function progressConversation(): Promise<void> {
   const userInput = document.getElementById("user-input");
