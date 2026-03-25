@@ -2,6 +2,7 @@ import "dotenv/config";
 import { SupabaseVectorStore } from "@langchain/community/vectorstores/supabase";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { createClient } from "@supabase/supabase-js";
+import { DocumentInterface } from "@langchain/core/documents";
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
@@ -24,3 +25,7 @@ const vectorStore = new SupabaseVectorStore(embeddings, {
 const retriever = vectorStore.asRetriever();
 
 export { retriever };
+
+export function combineDocuments(docs: DocumentInterface[]) {
+  return docs.map((doc) => doc.pageContent).join("\n\n");
+}
