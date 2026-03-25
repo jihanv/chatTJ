@@ -1,15 +1,33 @@
 "use server";
 
+import { askQuestion } from "@/lib/chat";
 import { ChatFormState } from "@/lib/types";
 
 export async function submitMessage(
   prevState: ChatFormState,
   formData: FormData,
 ): Promise<ChatFormState> {
-  const message = formData.get("message");
+  const rawMessage = formData.get("message");
+  const message = typeof rawMessage === "string" ? rawMessage : "";
 
+  if (!message) {
+    return {
+      ...prevState,
+    };
+  }
+  const response = await askQuestion(message);
   return {
     ...prevState,
-    message: typeof message === "string" ? message : "",
+    messages: [
+      ...prevState.messages,
+      {
+        role: "user",
+        text: message,
+      },
+      {
+        role: "ChatTJ",
+        text: response,
+      },
+    ],
   };
 }
