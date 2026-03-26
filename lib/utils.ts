@@ -3,6 +3,7 @@ import { SupabaseVectorStore } from "@langchain/community/vectorstores/supabase"
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { createClient } from "@supabase/supabase-js";
 import { DocumentInterface } from "@langchain/core/documents";
+import { ChatFormState } from "./types";
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
@@ -28,4 +29,10 @@ export { retriever };
 
 export function combineDocuments(docs: DocumentInterface[]) {
   return docs.map((doc) => doc.pageContent).join("\n\n");
+}
+
+export function combineConversation(history: ChatFormState) {
+  return history.messages.map((message) => {
+    return `${message.role}: ${message.text}`;
+  });
 }
