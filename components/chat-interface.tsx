@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useOptimistic } from "react";
+import { useActionState, useOptimistic, useRef, useEffect } from "react";
 import { submitMessage } from "@/app/actions";
 import { initialState } from "@/lib/types";
 
@@ -15,6 +15,18 @@ export default function ChatInterface() {
             newMessage,
         ]
     );
+    const messagesEndRef = useRef<HTMLDivElement | null>(null);
+    function scrollToBottom() {
+        const el = messagesEndRef.current;
+        if (!el) return;
+
+        el.scrollTop = el.scrollHeight;
+    }
+    useEffect(() => {
+        scrollToBottom();
+    }, [optimisticMessages.length]);
+
+
     async function handleSubmit(formData: FormData) {
         const rawMessage = formData.get("message");
         const message = typeof rawMessage === "string" ? rawMessage : "";
@@ -25,7 +37,9 @@ export default function ChatInterface() {
             role: "user",
             text: message,
         });
-
+        requestAnimationFrame(() => {
+            scrollToBottom();
+        });
         await formAction(formData);
 
 
@@ -37,7 +51,9 @@ export default function ChatInterface() {
                 Knowledge Bank
             </p>
             <div className="mt-8 flex flex-col h-[80%] rounded-3xl border p-6 border-white/10">
-                <div className="flex flex-col justify-start flex-1 gap-4 overflow-y-auto [scrollbar-color:#334155_#0f172a] [scrollbar-gutter:stable]  pr-5">
+                <div
+                    ref={messagesEndRef}
+                    className="flex flex-col justify-start flex-1 gap-4 overflow-y-auto [scrollbar-color:#334155_#0f172a] [scrollbar-gutter:stable]  pr-5">
                     {optimisticMessages.map((message, index) => (
                         <p
                             key={index}
