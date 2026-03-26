@@ -32,7 +32,10 @@ export function combineDocuments(docs: DocumentInterface[]) {
 }
 
 export function combineConversation(history: ChatFormState) {
-  return history.messages.map((message) => {
-    return `${message.role}: ${message.text}`;
-  });
+  return history.messages
+    .slice(-10)
+    .map((message) => {
+      return `${message.role}: ${message.text}`;
+    })
+    .join("\n");
 }
