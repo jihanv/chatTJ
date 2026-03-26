@@ -27,6 +27,8 @@ export default function ChatInterface() {
         });
 
         await formAction(formData);
+
+
     }
     return (
         <section className="text-white h-[80%] p-8 w-3/4 lg:max-w-2xl rounded-4xl bg-slate-900">
