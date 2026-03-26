@@ -2,6 +2,7 @@
 
 import { askQuestion } from "@/lib/chat";
 import { ChatFormState } from "@/lib/types";
+import { combineConversation } from "@/lib/utils";
 
 export async function submitMessage(
   prevState: ChatFormState,
@@ -9,13 +10,16 @@ export async function submitMessage(
 ): Promise<ChatFormState> {
   const rawMessage = formData.get("message");
   const message = typeof rawMessage === "string" ? rawMessage : "";
-
+  console.log(combineConversation(prevState));
   if (!message) {
     return {
       ...prevState,
     };
   }
-  const response = await askQuestion(message);
+  const response = await askQuestion({
+    question: message,
+    history: combineConversation(prevState),
+  });
   return {
     ...prevState,
     messages: [
