@@ -1,5 +1,5 @@
 export type ChatMessage = {
-  role: "user" | "ChatTJ";
+  role: "user" | "assistant";
   text: string;
 };
 
@@ -13,7 +13,7 @@ export type ChatFormState = {
 export const initialState: ChatFormState = {
   messages: [
     {
-      role: "ChatTJ",
+      role: "assistant",
       text: "どんな御用でしょうか？ :)",
     },
   ],

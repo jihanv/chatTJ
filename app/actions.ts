@@ -29,7 +29,7 @@ export async function submitMessage(
         text: message,
       },
       {
-        role: "ChatTJ",
+        role: "assistant",
         text: response,
       },
     ],

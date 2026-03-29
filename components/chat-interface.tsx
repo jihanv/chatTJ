@@ -10,7 +10,7 @@ export default function ChatInterface() {
     const [state, formAction] = useActionState(submitMessage, initialState);
     const [optimisticMessages, addOptimisticMessage] = useOptimistic(
         state.messages,
-        (currentMessages, newMessage: { role: "user" | "ChatTJ"; text: string }) => [
+        (currentMessages, newMessage: { role: "user" | "assistant"; text: string }) => [
             ...currentMessages,
             newMessage,
         ]
@@ -46,7 +46,7 @@ export default function ChatInterface() {
     }
     return (
         <section className="text-white h-[80%] p-8 w-3/4 lg:max-w-2xl rounded-4xl bg-slate-900">
-            <h1 className="text-3xl font-semibold">ChatTJ</h1>
+            <h1 className="text-3xl font-semibold">assistant</h1>
             <p className="mt-2 text-sm uppercase  tracking-wide text-white/60">
                 Knowledge Bank
             </p>
