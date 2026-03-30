@@ -53,7 +53,7 @@ export default function ChatInterface() {
             <div className="mt-8 flex flex-col h-[80%] rounded-3xl border p-6 border-white/10">
                 <div
                     ref={messagesEndRef}
-                    className="flex flex-col justify-start flex-1 gap-4 overflow-y-auto [scrollbar-color:#334155_#0f172a] [scrollbar-gutter:stable]  pr-5">
+                    className="flex flex-col justify-start flex-1 gap-4 overflow-y-auto [scrollbar-color:#334155_#0f172a] [scrollbar-gutter:stable] mb-5  pr-5">
                     {optimisticMessages.map((message, index) => (
                         <p
                             key={index}
